@@ -1,142 +1,65 @@
-# [Dash UI - Bootstrap 5 Theme](https://codescandy.com/dashui/index.html) [![Twitter URL](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Fgithub.com%2Fcodescandy%2FDash-UI)](https://twitter.com/intent/tweet?text=Dash%20-%20UI%20Bootstrap%205%20Theme&url=https%3A%2F%2Fgithub.com%2Fcodescandy%2FDash-UI&via=getcodescandy)
+# [Start Bootstrap - SB Admin 2](https://startbootstrap.com/theme/sb-admin-2/)
 
-<a href="https://codescandy.com/dashui/index.html">
- <img src="https://github.com/codescandy/Dash-UI/blob/main/src/assets/images/marketing/bootstrap-5-admin-dashboard-template.jpg" alt="Dash UI Bootstrap 5 Theme"/>
-</a>
+[SB Admin 2](https://startbootstrap.com/theme/sb-admin-2/) is an open source admin dashboard theme for [Bootstrap](https://getbootstrap.com/) created by [Start Bootstrap](https://startbootstrap.com/).
 
-Dash-UI is a Bootstrap 5 Admin & Dashboard Theme. Dash UI Kit a free and open source components and templates kit fully coded with Bootstrap 5.
+For the legacy Bootstrap 3 version of this theme, you can view the [last stable release](https://github.com/StartBootstrap/startbootstrap-sb-admin-2/releases/tag/v3.3.7%2B1) of SB Admin 2 for Bootstrap 3.
 
-[Dash UI pro](https://dashui.codescandy.com/)
+## Preview
 
-## Workflow
+[![SB Admin 2 Preview](https://assets.startbootstrap.com/img/screenshots/themes/sb-admin-2.png)](https://startbootstrap.github.io/startbootstrap-sb-admin-2/)
 
-This product is built using the following widely used technologies:
+**[Launch Live Preview](https://startbootstrap.github.io/startbootstrap-sb-admin-2/)**
 
-- Most popular CSS Framework Bootstrap 5
-- Productive workflow tool Gulp
-- Awesome CSS preprocessor Sass
+## Status
 
-## Table of Contents
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/StartBootstrap/startbootstrap-sb-admin-2/master/LICENSE)
+[![npm version](https://img.shields.io/npm/v/startbootstrap-sb-admin-2.svg)](https://www.npmjs.com/package/startbootstrap-sb-admin-2)
+[![Build Status](https://travis-ci.org/StartBootstrap/startbootstrap-sb-admin-2.svg?branch=master)](https://travis-ci.org/StartBootstrap/startbootstrap-sb-admin-2)
+[![dependencies Status](https://david-dm.org/StartBootstrap/startbootstrap-sb-admin-2/status.svg)](https://david-dm.org/StartBootstrap/startbootstrap-sb-admin-2)
+[![devDependencies Status](https://david-dm.org/StartBootstrap/startbootstrap-sb-admin-2/dev-status.svg)](https://david-dm.org/StartBootstrap/startbootstrap-sb-admin-2?type=dev)
 
-- [Quick Start](#quick-start)
-- [Documentation](#documentation)
-- [File Structure](#file-structure)
-- [Browser Support](#browser-support)
-- [Technical Support or Questions](#technical-support-or-questions)
-- [Figma design file](#figma-design-file)
+## Download and Installation
 
-## Quick start
+To begin using this template, choose one of the following options to get started:
 
-1. Download from clone this repository
-2. Download the project's zip
-3. Make sure you have Node locally installed.
-4. Download Gulp Command Line Interface to be able to use gulp in your Terminal.
+* [Download the latest release on Start Bootstrap](https://startbootstrap.com/theme/sb-admin-2/)
+* Install via npm: `npm i startbootstrap-sb-admin-2`
+* Clone the repo: `git clone https://github.com/StartBootstrap/startbootstrap-sb-admin-2.git`
+* [Fork, Clone, or Download on GitHub](https://github.com/StartBootstrap/startbootstrap-sb-admin-2)
 
-```
-npm install gulp-cli -g
-```
+## Usage
 
-5. After installing Gulp, run npm install in the main `dash-ui/` folder to download all the project dependencies. You'll find them in the `node_modules/` folder.
+After installation, run `npm install` and then run `npm start` which will open up a preview of the template in your default browser, watch for changes to core template files, and live reload the browser when changes are saved. You can view the `gulpfile.js` to see which tasks are included with the dev environment.
 
-```
-npm install
-```
+### Gulp Tasks
 
-6. Run gulp in the `dash-ui/` folder to serve the project files using BrowserSync. Running gulp will compile the theme and open `/index.html` in your main browser.
+* `gulp` the default task that builds everything
+* `gulp watch` browserSync opens the project in your default browser and live reloads when changes are made
+* `gulp css` compiles SCSS files into CSS and minifies the compiled CSS
+* `gulp js` minifies the themes JS file
+* `gulp vendor` copies dependencies from node_modules to the vendor directory
 
-```
-gulp
-```
+You must have npm installed globally in order to use this build environment. This theme was built using node v11.6.0 and the Gulp CLI v2.0.1. If Gulp is not running properly after running `npm install`, you may need to update node and/or the Gulp CLI locally.
 
-7. Generates a /dist directory with all the production files.
+## Bugs and Issues
 
-```
-gulp build
-```
+Have a bug or an issue with this template? [Open a new issue](https://github.com/StartBootstrap/startbootstrap-sb-admin-2/issues) here on GitHub or leave a comment on the [template overview page at Start Bootstrap](https://startbootstrap.com/theme/sb-admin-2/).
 
-## Documentation
+## About
 
-The documentation for Dash UI is provide on our [website](https://codescandy.com/dashui/docs/gulp.html).
+Start Bootstrap is an open source library of free Bootstrap templates and themes. All of the free templates and themes on Start Bootstrap are released under the MIT license, which means you can use them for any purpose, even for commercial projects.
 
-## File Structure
+* <https://startbootstrap.com>
+* <https://twitter.com/SBootstrap>
 
-Within the download you'll find the following directories and files:
+Start Bootstrap was created by and is maintained by **[David Miller](https://davidmiller.io/)**.
 
-```
+* <https://davidmiller.io>
+* <https://twitter.com/davidmillerhere>
+* <https://github.com/davidtmiller>
 
-Dash UI Bootstrap 5 Theme
-.
-├── src
-    ├── assets
-    |   ├── css
-    │   ├── fonts
-    │   ├── images
-    |   ├── js
-    │   ├── scss
-    |       ├── theme
-    |       ├── theme.scss
-    ├── pages
-    │   ├── 404-error.html
-    │   ├── billing.html
-    │   ├── forget-password.html
-    │   ├── layout.html
-    │   ├── pricing.html
-    │   ├── profile.html
-    │   ├── settings.html
-    │   ├── sign-in.html
-    │   ├── sign-up.html
-    │   └── tables.html
-    ├── partials
-    │   ├── doc-navbar.html
-    │   ├── docs-sidenav.html
-    │   ├── head.html
-    │   ├── header.html
-    │   ├── navbar-vertical.html         
-    │   └── scripts.html
-    ├── index.html
-    ├── gulpfile.js
-    ├── package-lock.json
-    ├── package.json
-    ├── README.md
+Start Bootstrap is based on the [Bootstrap](https://getbootstrap.com/) framework created by [Mark Otto](https://twitter.com/mdo) and [Jacob Thorton](https://twitter.com/fat).
 
+## Copyright and License
 
-```
-
-## Browser Support
-
-At present, we officially aim to support the last two versions of the following browsers:
-
-<img src="https://github.com/codescandy/Dash-UI/blob/main/src/assets/images/marketing/chrome.png" width="64" height="64"><img src="https://github.com/codescandy/Dash-UI/blob/main/src/assets/images/marketing/firefox.png" width="64" height="64"><img src="https://github.com/codescandy/Dash-UI/blob/main/src/assets/images/marketing/edge.png" width="64" height="64"><img src="https://github.com/codescandy/Dash-UI/blob/main/src/assets/images/marketing/safari.png" width="64" height="64"><img src="https://github.com/codescandy/Dash-UI/blob/main/src/assets/images/marketing/opera.png" width="64" height="64">
-
-## Technical Support or Questions
-
-If you have questions or need help integrating the product please [contact us](https://codescandy.com/contact-us/). [Support](https://github.com/codescandy/Dash-UI/discussions)
-
-## Useful Links
-
-- [Bootstrap Template](https://dashui.codescandy.com/free-bootstrap-5-admin-dashboard-template.html)
-- [React Template](https://dashui.codescandy.com/free-reactjs-admin-dashboard-template.html)
-- [Next.js Template](https://dashui.codescandy.com/free-next-js-admin-dashboard-template.html)
-- [Nuxt.js Template](https://dashui.codescandy.com/free-nuxt-js-admin-dashboard-template.html)
-- [Tailwind Template](https://dashui.codescandy.com/free-tailwindcss-admin-dashboard-html-template.html)
-
-## Figma Design File
-
-Ready to use [Figma File](https://www.figma.com/community/file/1259105309122518026/dash-ui-admin-dashboard-template).
-
-## Upgrade to PRO
-
-Get more power with [Dash UI pro](https://dashui.codescandy.com/) featuring bunch of UI components, forms, tables, charts, pages, and icons.
-
-| Free Version                                                                                  | DashUI PRO                                                                                |
-| --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| ✔️ 1 Dashboard                                                                                | ✔️ 6 Dashboard                                                                            |
-| ✔️ 11 HTML Pages                                                                              | ✔️ 60+ HTML pages                                                                         |
-| ✔️ Includine Docs                                                                             | ✔️ Documentation                                                                          |
-| ✔️ 4 Plugins                                                                                  | ✔️ 10+ Plugins                                                                            |
-| ✔️ Source Files                                                                               | ✔️ Source Files                                                                           |
-| ❌ Dark Mode                                                                                  | ✔️ Dark Mode                                                                              |
-| ❌ Layout Options                                                                             | ✔️ Layout Variations                                                                      |
-| ❌ Priority Support                                                                           | ✔️ Priority Support                                                                       |
-| -                                                                                             | ✔️ Free Update                                                                            |
-| [Free Download](https://dashui.codescandy.com/free-bootstrap-5-admin-dashboard-template.html) | [Get Dash UI](https://dashui.codescandy.com/bootstrap-admin-dashboard-html-template.html) |
+Copyright 2013-2021 Start Bootstrap LLC. Code released under the [MIT](https://github.com/StartBootstrap/startbootstrap-resume/blob/master/LICENSE) license.

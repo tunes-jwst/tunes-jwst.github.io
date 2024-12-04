@@ -1,166 +1,145 @@
-/*
-=========================================================
-* Dash UI - Bootstrap 5 Admin & Dashboard Theme
-=========================================================
-* Product Page: https://codescandy.com/dashui/index.html
-* Copyright 2020 Codescandy (https://codescandy.com/)
-* Designed and coded by https://codescandy.com
-========================================================= */
+"use strict";
 
 // Load plugins
-const { src, dest, watch, parallel, series } = require('gulp');
-const sass = require('gulp-sass')(require('sass'));
-const gulpautoprefixer = require('gulp-autoprefixer');
-const browsersync = require('browser-sync').create();
-const fileinclude = require('gulp-file-include');
-const useref = require('gulp-useref');
-const cached = require('gulp-cached');
-const gulpIf = require('gulp-if');
-const del = require('del');
-const npmDist = require('gulp-npm-dist');
-const postcss = require('gulp-postcss');
-const cssnano = require('cssnano');
-const autoprefixer = require('autoprefixer');
-const replace = require('gulp-replace');
-const terser = require('gulp-terser');
+const autoprefixer = require("gulp-autoprefixer");
+const browsersync = require("browser-sync").create();
+const cleanCSS = require("gulp-clean-css");
+const del = require("del");
+const gulp = require("gulp");
+const header = require("gulp-header");
+const merge = require("merge-stream");
+const plumber = require("gulp-plumber");
+const rename = require("gulp-rename");
+const sass = require("gulp-sass");
+const uglify = require("gulp-uglify");
 
-// Paths to project folders
+// Load package.json for banner
+const pkg = require('./package.json');
 
-const paths = {
-	base: {
-		base: './',
-		node: './node_modules',
-	},
-	src: {
-		basesrc: './src',
-		basesrcfiles: './src/**/*',
-		scss: './src/assets/scss/**/*.scss',
-		css: './src/assets/css',
-		js: './src/assets/js/**/*.js',
-		html: './src/**/*.html',
-		images: './src/assets/images/**/*',
-		fonts: './src/assets/fonts/**/*',
-		assets: './src/assets/**/*',
-		partials: '.src/partials/**/*',
-	},
-	temp: {
-		basetemp: './.temp',
-	},
-	dist: {
-		basedist: './dist',
-		js: './dist/assets/js',
-		images: './dist/assets/images',
-		css: './dist/assets/css',
-		fonts: './dist/assets/fonts',
-		libs: './dist/assets/libs',
-	},
-};
+// Set the banner content
+const banner = ['/*!\n',
+  ' * Start Bootstrap - <%= pkg.title %> v<%= pkg.version %> (<%= pkg.homepage %>)\n',
+  ' * Copyright 2013-' + (new Date()).getFullYear(), ' <%= pkg.author %>\n',
+  ' * Licensed under <%= pkg.license %> (https://github.com/StartBootstrap/<%= pkg.name %>/blob/master/LICENSE)\n',
+  ' */\n',
+  '\n'
+].join('');
 
-// SCSS to CSS
-function scss(callback) {
-	return src(paths.src.scss).pipe(sass().on('error', sass.logError)).pipe(gulpautoprefixer()).pipe(dest(paths.src.css)).pipe(browsersync.stream());
-	callback();
+// BrowserSync
+function browserSync(done) {
+  browsersync.init({
+    server: {
+      baseDir: "./"
+    },
+    port: 3000
+  });
+  done();
 }
 
-// Image
-function images(callback) {
-	return src(paths.src.images).pipe(dest(paths.dist.images));
-	callback();
+// BrowserSync reload
+function browserSyncReload(done) {
+  browsersync.reload();
+  done();
 }
 
-// Font task
-function fonts(callback) {
-	return src(paths.src.fonts).pipe(dest(paths.dist.fonts));
-	callback();
+// Clean vendor
+function clean() {
+  return del(["./vendor/"]);
 }
 
-// HTML
-function html(callback) {
-	return src([paths.src.html, '!./src/partials/**/*'])
-		.pipe(
-			fileinclude({
-				prefix: '@@',
-				basepath: '@file',
-			})
-		)
-		.pipe(replace(/src="(.{0,10})node_modules/g, 'src="$1assets/libs'))
-		.pipe(replace(/href="(.{0,10})node_modules/g, 'href="$1assets/libs'))
-		.pipe(useref())
-		.pipe(cached())
-		.pipe(gulpIf('*.css', postcss([autoprefixer(), cssnano()]))) // PostCSS plugins with cssnano
-		.pipe(gulpIf('*.js', terser()))
-		.pipe(dest(paths.dist.basedist))
-		.pipe(browsersync.stream());
-	callback();
+// Bring third party dependencies from node_modules into vendor directory
+function modules() {
+  // Bootstrap JS
+  var bootstrapJS = gulp.src('./node_modules/bootstrap/dist/js/*')
+    .pipe(gulp.dest('./vendor/bootstrap/js'));
+  // Bootstrap SCSS
+  var bootstrapSCSS = gulp.src('./node_modules/bootstrap/scss/**/*')
+    .pipe(gulp.dest('./vendor/bootstrap/scss'));
+  // ChartJS
+  var chartJS = gulp.src('./node_modules/chart.js/dist/*.js')
+    .pipe(gulp.dest('./vendor/chart.js'));
+  // dataTables
+  var dataTables = gulp.src([
+      './node_modules/datatables.net/js/*.js',
+      './node_modules/datatables.net-bs4/js/*.js',
+      './node_modules/datatables.net-bs4/css/*.css'
+    ])
+    .pipe(gulp.dest('./vendor/datatables'));
+  // Font Awesome
+  var fontAwesome = gulp.src('./node_modules/@fortawesome/**/*')
+    .pipe(gulp.dest('./vendor'));
+  // jQuery Easing
+  var jqueryEasing = gulp.src('./node_modules/jquery.easing/*.js')
+    .pipe(gulp.dest('./vendor/jquery-easing'));
+  // jQuery
+  var jquery = gulp.src([
+      './node_modules/jquery/dist/*',
+      '!./node_modules/jquery/dist/core.js'
+    ])
+    .pipe(gulp.dest('./vendor/jquery'));
+  return merge(bootstrapJS, bootstrapSCSS, chartJS, dataTables, fontAwesome, jquery, jqueryEasing);
 }
 
-// File include task for temp
-function fileincludeTask(callback) {
-	return src([paths.src.html, '!./src/partials/**/*'])
-		.pipe(
-			fileinclude({
-				prefix: '@@',
-				basepath: '@file',
-			})
-		)
-		.pipe(cached())
-		.pipe(dest(paths.temp.basetemp));
-	callback();
+// CSS task
+function css() {
+  return gulp
+    .src("./scss/**/*.scss")
+    .pipe(plumber())
+    .pipe(sass({
+      outputStyle: "expanded",
+      includePaths: "./node_modules",
+    }))
+    .on("error", sass.logError)
+    .pipe(autoprefixer({
+      cascade: false
+    }))
+    .pipe(header(banner, {
+      pkg: pkg
+    }))
+    .pipe(gulp.dest("./css"))
+    .pipe(rename({
+      suffix: ".min"
+    }))
+    .pipe(cleanCSS())
+    .pipe(gulp.dest("./css"))
+    .pipe(browsersync.stream());
 }
 
-// Copy libs file from nodemodules to dist
-function copyLibs(callback) {
-	return src(npmDist(), { base: paths.base.node }).pipe(dest(paths.dist.libs));
-	callback();
+// JS task
+function js() {
+  return gulp
+    .src([
+      './js/*.js',
+      '!./js/*.min.js',
+    ])
+    .pipe(uglify())
+    .pipe(header(banner, {
+      pkg: pkg
+    }))
+    .pipe(rename({
+      suffix: '.min'
+    }))
+    .pipe(gulp.dest('./js'))
+    .pipe(browsersync.stream());
 }
 
-// Clean .temp folder
-function cleanTemp(callback) {
-	del.sync(paths.temp.basetemp);
-	callback();
+// Watch files
+function watchFiles() {
+  gulp.watch("./scss/**/*", css);
+  gulp.watch(["./js/**/*", "!./js/**/*.min.js"], js);
+  gulp.watch("./**/*.html", browserSyncReload);
 }
 
-// Clean Dist folder
-function cleanDist(callback) {
-	del.sync(paths.dist.basedist);
-	callback();
-}
+// Define complex tasks
+const vendor = gulp.series(clean, modules);
+const build = gulp.series(vendor, gulp.parallel(css, js));
+const watch = gulp.series(build, gulp.parallel(watchFiles, browserSync));
 
-// Browser Sync Serve
-function browsersyncServe(callback) {
-	browsersync.init({
-		server: {
-			baseDir: [paths.temp.basetemp, paths.src.basesrc, paths.base.base],
-		},
-	});
-	callback();
-}
-
-// SyncReload
-function syncReload(callback) {
-	browsersync.reload();
-	callback();
-}
-
-// Watch Task
-function watchTask() {
-	watch(paths.src.html, series(fileincludeTask, syncReload));
-	watch([paths.src.images, paths.src.fonts], series(images, fonts));
-	watch([paths.src.scss], series(scss, syncReload));
-}
-
-// Default Task Preview
-exports.default = series(fileincludeTask, browsersyncServe, watchTask);
-
-// Build Task for Dist
-exports.build = series(parallel(cleanDist), html, images, fonts, copyLibs, cleanTemp);
-
-// export tasks
-exports.scss = scss;
-exports.images = images;
-exports.fonts = fonts;
-exports.html = html;
-exports.fileincludeTask = fileincludeTask;
-exports.copyLibs = copyLibs;
-exports.cleanTemp = cleanTemp;
-exports.cleanDist = cleanDist;
+// Export tasks
+exports.css = css;
+exports.js = js;
+exports.clean = clean;
+exports.vendor = vendor;
+exports.build = build;
+exports.watch = watch;
+exports.default = build;
